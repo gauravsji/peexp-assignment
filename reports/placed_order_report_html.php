@@ -9,7 +9,7 @@
 		<!--Including Bootstrap CSS links-->
 		<?php include "../extra/header.html";?>
 		<!--Including Bootstrap CSS links-->
-		
+
 
 	</head>
 
@@ -27,27 +27,27 @@
 			<!-- Content Wrapper. Contains page content -->
 			<div class="content-wrapper">
 			<section class="content-header">
-				<h1>Placed Order Report 
+				<h1>Placed Order Report
 					<div class="btn-toolbar pull-right">
-						<a href="../html/add_order_html.php" class="btn btn-xs btn-primary">New Order</a>					
+						<a href="../html/add_order_html.php" class="btn btn-xs btn-primary">New Order</a>
 						<a href="../reports/placed_order_report_html.php" class="btn btn-xs btn-info">Placed Order</a>
-						<a href="../reports/completed_order_report_html.php" class="btn btn-xs btn-success">Completed Order</a>		
+						<a href="../reports/completed_order_report_html.php" class="btn btn-xs btn-success">Completed Order</a>
 						<a href="../reports/all_order_report_html.php" class="btn btn-xs btn-warning">All Orders</a>
-					</div>					
+					</div>
 				</h1>
 			</section>
-			
+
 				<!-- Main content -->
 				<section class="content">
 					<div class="box">
 						<div class="box-body">
-							
-							
+
+
 
 <div class="table-responsive">
 <table id="view_order_html" class="sieve table table-bordered table-striped table-fixed" style="border-collapse:collapse;">
-	
-		
+
+
 		<thead>
 			<!--<th><center>Products</center></th>-->
 			<th><center>Order ID</center></th>
@@ -57,6 +57,7 @@
 			<th><center>Customer</center></th>
 			<th><center>Project</center></th>
 			<th><center>Order Status</center></th>
+			<th><center>Created From</center></th>
 			<th><center>Products</center></th>
 			<th><center>View</center></th>
 			<th><center>Edit</center></th>
@@ -66,7 +67,7 @@
 			echo '<th><center>Delete</th>';
 			}
 			?>
-												
+
 		</thead>
 	<tbody>
 		<?php
@@ -108,6 +109,18 @@
 					{
 					echo '<td><div class="badge bg-green">' . $row['order_status'] . '</div></td>';
 					}
+					if($row['created_from_id'] != '')
+					{
+						$rfq_id = explode('-',$row['created_from_id']);
+						if($rfq_id[0] == "rfq")
+							echo  "<td><center> <a target='_blank' href='../html/view_rfq_enquiry.php?id=".$rfq_id[1]."' class='btn btn-info btn-xs'>View RFQ Request</a></center></td>";
+						else {
+							echo  "<td><center> <a target='_blank' href='' class='btn btn-info btn-xs'>View Enquiry Request</a></center></td>";
+						}
+					}
+					else {
+						echo  "<td><center><button class='btn btn-xs btn-red'>No Link</button></center></td>";
+					}
 				echo  '<td><a href="#modal_products" class="btn btn-primary btn-xs" id="view_products" data-toggle="modal" data-id="'.$row['order_id'].'">Products</a></td>';
 				echo  "<td><center> <a target='_blank' href='../html/view_order_html.php?id=" . $row['order_id'] . "' class='btn btn-primary btn-xs'>View</a></center></td>";
 				echo  "<td><center> <a target='_blank' href='../html/edit_order_html.php?id=" . $row['order_id'] . "' class='btn btn-warning btn-xs'>Edit</a></center></td>";
@@ -119,7 +132,7 @@
 
 	/*echo '<tr>
 			<td colspan="12" class="hiddenRow">
-				<div class="accordian-body collapse" id="prod'; echo $global_order_id; echo '">   
+				<div class="accordian-body collapse" id="prod'; echo $global_order_id; echo '">
 					<table id="view_order_product_html" class="table table-bordered table-striped table-fixed">
 						<thead>
 									<th><center>Product Name</th>
@@ -137,7 +150,7 @@
 						</thead>
 						<tbody>
 							';
-					
+
 								$sql1 = "SELECT * FROM ss_order o,order_product op where o.order_id=op.order_id and o.order_id=".$global_order_id;
 								$result1 = mysqli_query($conn,$sql1);
 								while ($row1 = mysqli_fetch_array($result1))
@@ -153,7 +166,7 @@
 									echo '<td><center>' . $row1['order_selling_percentage'] . '</center></td>';
 									echo '<td><center>' . $row1['order_selling_price'] . '</center></td>';
 									echo '<td><center>' . $row1['order_tax'] . '</center></td>';
-									echo '<td><center>'; 
+									echo '<td><center>';
 									if($row1['tax_inclusive']==1)
 									{
 										echo "Inclusive";
@@ -162,24 +175,24 @@
 									{
 										echo "Exclusive";
 									}
-									
+
 									echo '</center></td>';
-									echo '<td><center>' . $row1['order_total'] . '</center></td></tr>';									
+									echo '<td><center>' . $row1['order_total'] . '</center></td></tr>';
 									$global_total=$global_total+$row1['order_total'];
-								}	
-								echo '<tr><td colspan="11" align="right" ><strong>TOTAL</strong></td><td><strong><center>' . $global_total . '</center></strong></td></tr>';		
-									$global_total=0;								
+								}
+								echo '<tr><td colspan="11" align="right" ><strong>TOTAL</strong></td><td><strong><center>' . $global_total . '</center></strong></td></tr>';
+									$global_total=0;
 						echo '</tbody>
 					</table>
-					</div> 
-				</div> 
+					</div>
+				</div>
 			</td>
 		</tr>';*/
 		}
 		?>
 	</tbody>
 </table>
-			
+
 						<!-- /.box-body -->
 					</div>
 				</section>
@@ -190,9 +203,9 @@
 			<!-- Main Footer -->
 			<footer class="main-footer">
 				<div class="pull-right hidden-xs">
-				
-				</div>		
-				<strong>Order Report</strong> 				
+
+				</div>
+				<strong>Order Report</strong>
 			</footer>
 			<!-- Main Footer -->
 
@@ -207,9 +220,9 @@
 		<!--Including Bootstrap and other scripts-->
 		<?php include "../extra/footer.html";?>
 		<!--Including Bootstrap and other scripts-->
-		
-			
-	
+
+
+
 				<div class="modal fade" id="modal_products" role="dialog">
 				<div class="modal-dialog modal-lg" role="document">
 					<div class="modal-content">
@@ -218,15 +231,15 @@
 							<h4 class="modal-title">Products Ordered</h4>
 						</div>
 						<div class="modal-body">
-							<div class="fetched-data"></div> <!--Data will be displayed here after fetching-->	
+							<div class="fetched-data"></div> <!--Data will be displayed here after fetching-->
 						</div>
 						<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 						</div>
 					</div>
 				</div>
-			</div>	
-		
+			</div>
+
 			<script>
 	$(document).ready(function()
 	{
@@ -238,17 +251,17 @@
 			"order": [[ 0, "desc" ]],
 			"iDisplayLength": 25
 			});
-			
+
 				// $("table.sieve").sieve();
 	});
-	
-	
-		$('#modal_products').on('show.bs.modal', function (e) 
+
+
+		$('#modal_products').on('show.bs.modal', function (e)
 	{
 		var rowid = $(e.relatedTarget).data('id');
 		$.ajax({
 			type : 'post',
-			url : '../php/products_line_item.php', //Here you will fetch records 
+			url : '../php/products_line_item.php', //Here you will fetch records
 			data :  'order_id='+ rowid, //Pass $id
 			success : function(data)
 			{
@@ -256,23 +269,23 @@
 			}
 		});
 	});
-	
-	
-	
-			$('a.delete').on('click', function() 
+
+
+
+			$('a.delete').on('click', function()
 		{
 			var choice = confirm('Do you really want to delete this record?');
-			if(choice === true) 
+			if(choice === true)
 			{
 				return true;
 			}
 			return false;
 		});
-		
-		
+
+
 	</script>
-	
-	
+
+
 
 	</body>
 

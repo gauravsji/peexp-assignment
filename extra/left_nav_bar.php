@@ -189,6 +189,30 @@
 								<li id="li_servicers_installers_report"><a href="../reports/servicers_installers_report_html.php"><i class="fa fa-list-alt"></i> Services & Installers Report</a></li>
 							</ul>
 						</li>
+						<li id="li_ledger" class="treeview">
+							<a>
+								<i class="fa fa-archive"></i><span> Ledger</span>
+								<span class="pull-right-container">
+									<i class="fa fa-angle-left pull-right"></i>
+								</span>
+							</a>
+							<ul class="treeview-menu">
+								<li id="li_length_convertor"><a href="../html/add_ledger_html.php"><i class="fa fa-plus"></i> Add Ledger</a></li>
+								<li id="li_add_key_value"><a href="../html/ledger_report_html.php"><i class="fa fa-list-alt"></i> Ledger Report</a></li>
+							</ul>
+						</li>
+						<li id="li_inventory" class="treeview">
+							<a>
+								<i class="fa fa-archive"></i><span> Inventory</span>
+								<span class="pull-right-container">
+									<i class="fa fa-angle-left pull-right"></i>
+								</span>
+							</a>
+							<ul class="treeview-menu">
+								<li id="li_length_convertor"><a href="../html/add_inventory_html.php"><i class="fa fa-plus"></i> Add Inventory</a></li>
+								<li id="li_add_key_value"><a href="../html/inventory_report_html.php"><i class="fa fa-list-alt"></i> Ledger Report</a></li>
+							</ul>
+						</li>
 					</ul>
 				</section>
 			</aside>';
@@ -204,7 +228,6 @@
 								<span class="pull-right-container"></span>
 							</a>
 						</li>
-
 
 						<li id="li_daily_operations" class="treeview">
 							<a>

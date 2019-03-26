@@ -1,0 +1,15 @@
+<?php
+$host="localhost"; // Host name
+$username="root"; // Mysql username
+$password="-xs-P+[{G3Pxx+Xx"; // Mysql password
+$dbname="dev_snippt"; // Database name
+
+// Create connection
+$conn = mysqli_connect($host, $username, $password, $dbname);
+// Check connection
+if (!$conn)
+{
+	header("Location:../extra/connection_failed.php");
+
+}
+?>

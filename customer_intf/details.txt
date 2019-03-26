@@ -1,0 +1,10 @@
+Roles and Permissions names
+-> Customer Panel Access -> customer_panel
+-> Customer Panel Profile Access -> customer_profile
+
+
+Customer Admin
+-> Admin ->  customer_admin
+
+
+

@@ -1,0 +1,170 @@
+<!-- jQuery 2.2.3-->
+<script src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
+
+<!-- jQuery 2.2.3-->
+
+<!-- Bootstrap 3.3.6 -->
+<script src="../../bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Slimscroll -->
+<script src="../../plugins/slimScroll/jquery.slimscroll.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../../dist/js/app.min.js"></script>
+
+<!-- Select2 gives you a customizable select box with support for searching, tagging, remote data sets, infinite scrolling, and many other highly used options. -->
+<script src="../../plugins/select2/select2.full.min.js"></script>
+<!-- Select2 gives you a customizable select box with support for searching, tagging, remote data sets, infinite scrolling, and many other highly used options. -->
+
+<!-- FastClick is a simple, easy-to-use library for eliminating the 300ms delay between a physical tap and the firing of a click event on mobile browsers. The aim is to make your application feel less laggy and more responsive while avoiding any interference with your current logic. -->
+<script src="../../plugins/fastclick/fastclick.js"></script>
+<!-- FastClick is a simple, easy-to-use library for eliminating the 300ms delay between a physical tap and the firing of a click event on mobile browsers. The aim is to make your application feel less laggy and more responsive while avoiding any interference with your current logic. -->
+
+<!-- Bootstrap Datepicker Javascript -->
+<script src="../../plugins/datepicker/bootstrap-datepicker.js"></script>
+<!-- Bootstrap Datepicker Javascript -->
+
+<!-- Bootstrap Time Picker -->
+<script src="../../plugins/timepicker/bootstrap-timepicker.min.js"></script>
+<!-- Bootstrap Time Picker -->
+
+<!-- PACE -->
+<script src="../../plugins/pace/pace.min.js"></script>
+<!-- PACE -->
+
+<!-- Bootstrap Toggle -->
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>	
+<!-- Bootstrap Toggle -->
+
+<!--Data Table-->
+<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+
+<!--Data Table-->
+
+<!-- Add Line Items -->
+<script type="text/javascript" src="../../dist/js/line_items_script.js"></script>
+<!-- Add Line Items -->
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.15/sorting/datetime-moment.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.15/dataRender/datetime.js"></script>
+<script>
+$(function () 
+{
+    //Initialize Select2 Elements
+    $(".select2").select2(); 
+});
+</script>
+<script>
+/*!
+ * jQuery Sieve v0.3.0 (2013-04-04)
+ * http://rmm5t.github.io/jquery-sieve/
+ * Copyright (c) 2013-2017 Ryan McGeary; Licensed MIT
+ */
+(function() {
+  var $;
+
+  $ = jQuery;
+
+  $.fn.sieve = function(options) {
+    var compact;
+    compact = function(array) {
+      var item, _i, _len, _results;
+      _results = [];
+      for (_i = 0, _len = array.length; _i < _len; _i++) {
+        item = array[_i];
+        if (item) {
+          _results.push(item);
+        }
+      }
+      return _results;
+    };
+    return this.each(function() {
+      var container, searchBar, settings;
+      container = $(this);
+      settings = $.extend({
+        searchInput: null,
+        searchTemplate: "<div><label>Search: <input type='text'></label></div>",
+        itemSelector: "tbody tr",
+        textSelector: null,
+        toggle: function(item, match) {
+          return item.toggle(match);
+        },
+        complete: function() {}
+      }, options);
+      if (!settings.searchInput) {
+        searchBar = $(settings.searchTemplate);
+        settings.searchInput = searchBar.find("input");
+        container.before(searchBar);
+      }
+      return settings.searchInput.on("keyup.sieve change.sieve", function() {
+        var items, query;
+        query = compact($(this).val().toLowerCase().split(/\s+/));
+        items = container.find(settings.itemSelector);
+        items.each(function() {
+          var cells, item, match, q, text, _i, _len;
+          item = $(this);
+          if (settings.textSelector) {
+            cells = item.find(settings.textSelector);
+            text = cells.text().toLowerCase();
+          } else {
+            text = item.text().toLowerCase();
+          }
+          match = true;
+          for (_i = 0, _len = query.length; _i < _len; _i++) {
+            q = query[_i];
+            match && (match = text.indexOf(q) >= 0);
+          }
+          return settings.toggle(item, match);
+        });
+        return settings.complete();
+      });
+    });
+  };
+
+}).call(this);
+</script>
+
+<!-- CK Editor Script -->
+<script src="https://cdn.ckeditor.com/4.5.7/standard/ckeditor.js"></script>
+<!-- CK Editor Script -->
+
+<script src="../../dist/js/multiple_image_upload_script.js"></script>	
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/fancybox/1.3.4/jquery.fancybox-1.3.4.pack.min.js"></script>
+<script type="text/javascript">
+    $(function($){
+        var addToAll = false;
+        var gallery = true;
+        var titlePosition = 'inside';
+        $(addToAll ? 'img' : 'img.fancybox').each(function(){
+            var $this = $(this);
+            var title = $this.attr('title');
+            var src = $this.attr('data-big') || $this.attr('src');
+            var a = $('<a href="#" class="fancybox"></a>').attr('href', src).attr('title', title);
+            $this.wrap(a);
+        });
+        if (gallery)
+            $('a.fancybox').attr('rel', 'fancyboxgallery');
+        $('a.fancybox').fancybox({
+            titlePosition: titlePosition
+        });
+    });
+    $.noConflict();
+	
+	
+	setInterval(function() {
+    $.get('../extra/aside.php', function(data) 
+	{     
+    });
+}, 300000);
+</script>
+
+
+
+
+
+
+
+<script src="../../plugins/html_to_excel/jquery.table2excel.js"></script>
