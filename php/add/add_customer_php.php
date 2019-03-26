@@ -30,7 +30,7 @@
 	$user_id= mysqli_real_escape_string($conn,$_POST['user_id']);
 	//$location=mysqli_real_escape_string($conn,$_POST['location']);
 	//Insert Query
-	$query1 = "INSERT INTO $tbl_customer(customer_name,firm_name,customer_city,customer_address,customer_type_of_firm,customer_contact_person,customer_contact_number,customer_alternate_contact_number,customer_email,customer_alternate_email,gst_number,billing_address,customer_additional_info,data_entered_by,location,subset,role,password) VALUES ('$customer_name','$firm_name','$customer_city','$customer_address','$customer_type_of_firm','$customer_contact_person','$customer_contact_number','$customer_alternate_contact','$customer_email','$customer_alternate_email','$gst_number','$billing_address','$customer_additional_info','$user_id','','admin','customer_admin','25f9e794323b453885f5181f1b624d0b')";
+	$query1 = "INSERT INTO $tbl_customer(customer_name,firm_name,customer_city,customer_address,customer_type_of_firm,customer_contact_person,customer_contact_number,customer_alternate_contact_number,customer_email,customer_alternate_email,gst_number,billing_address,customer_additional_info,data_entered_by,location,role,password) VALUES ('$customer_name','$firm_name','$customer_city','$customer_address','$customer_type_of_firm','$customer_contact_person','$customer_contact_number','$customer_alternate_contact','$customer_email','$customer_alternate_email','$gst_number','$billing_address','$customer_additional_info','$user_id','','customer_admin','25f9e794323b453885f5181f1b624d0b')";
 
 	//Execute The Query
 	if(mysqli_query($conn, $query1))
@@ -38,6 +38,13 @@
 
 	//Get Last Inserted Id of Customer Table and Create an Adhoc Project a Customer
 	$last_inserted_id=mysqli_insert_id($conn);
+
+	$update_query = "UPDATE $tbl_customer SET subset = '$last_inserted_id' WHERE customer_id = '$last_inserted_id'";
+
+	if(mysqli_query($conn,$update_query))
+	$error = 1;
+
+
 	//Insert Query
 	$query2 = "INSERT INTO project(customer_id,project_name,project_client_name,project_site_address,project_site_incharge_name,project_type_of_project,data_entered_by,billing_details,location,delete_status) VALUES ('$last_inserted_id','Ad Hoc','','$customer_address','','','$user_id','$billing_address','$customer_city',0)";
 	//Execute The Query
@@ -120,48 +127,54 @@
 		$subuser_email=$_POST['subuser_email'];
 		$subuser_role=$_POST['subuser_role'];
 		$subuser_status=$_POST['subuser_status'];
-
-		foreach($subuser_name as $a => $b)
+		if($subuser_name != "" )
 		{
-			//Pass each variable from php variable array to php variable
-			$v_subuser_name=$subuser_name[$a];
-			$v_subuser_contact_number=$subuser_contact_number[$a];
-			$v_subuser_email=$subuser_email[$a];
-			$v_subuser_role=$subuser_role[$a];
-			$v_subuser_status=$subuser_status[$a];
-			//Insert Query
-			$subuser_query = "INSERT INTO $tbl_customer(customer_name,firm_name,customer_type_of_firm,customer_contact_number,customer_email,data_entered_by,customer_city,subset,role,subuser_status,password) VALUES ('$v_subuser_name','$firm_name','$customer_type_of_firm','$v_subuser_contact_number','$v_subuser_email','$user_id','$customer_city','$last_inserted_id','$v_subuser_role','$v_subuser_status','25f9e794323b453885f5181f1b624d0b')";
-			if(mysqli_query($conn, $subuser_query))
-			$error=1;
-			//Mail to the User
-				$mailbody = "Congratulation, you have been successfully registered with my.smartstorey.com. Please log on to my.smartstorey.com with your email and initial pasword as 123456789 <br>Please contact Bangalore@smartstorey.com for any queries.";
-
-				$from_email = "bangalore@smartstorey.com";
-				$password = "bang@1234";
-				$to_id = $v_subuser_email;
-				$message = $mailbody;
-				$subject = "Registration Successful";
-
-				$mail = new PHPMailer;
-				$mail->Host = 'smtp.zoho.com';
-				$mail->Port =465;
-				$mail->SMTPSecure = 'tls';
-				$mail->SMTPAuth = true;
-				$mail->Username = $from_email;
-				$mail->Password = $password;
-				$mail->setFrom('bangalore@smartstorey.com', 'Smartstorey LLP');
-				$mail->addReplyTo('bangalore@smartstorey.com', 'Smartstorey LLP');
-				$mail->addAddress($to_id);
-				$mail->Subject = $subject;
-				$mail->msgHTML($message);
-
-				if (!$mail->send())
+			foreach($subuser_name as $a => $b)
+			{
+				//Pass each variable from php variable array to php variable
+				$v_subuser_name=$subuser_name[$a];
+				$v_subuser_contact_number=$subuser_contact_number[$a];
+				$v_subuser_email=$subuser_email[$a];
+				$v_subuser_role=$subuser_role[$a];
+				$v_subuser_status=$subuser_status[$a];
+				//Insert Query
+				if($subuser_email != "")
 				{
-					$mail_error = "Mailer Error: " . $mail->ErrorInfo;
-					$error = 1;
-					//echo $error;
+					$subuser_query = "INSERT INTO $tbl_customer(customer_name,firm_name,customer_type_of_firm,customer_contact_number,customer_email,data_entered_by,customer_city,subset,role,subuser_status,password) VALUES ('$v_subuser_name','$firm_name','$customer_type_of_firm','$v_subuser_contact_number','$v_subuser_email','$user_id','$customer_city','$last_inserted_id','$v_subuser_role','$v_subuser_status','25f9e794323b453885f5181f1b624d0b')";
+					if(mysqli_query($conn, $subuser_query))
+					$error=1;
+					//Mail to the User
+						$mailbody = "Congratulation, you have been successfully registered with my.smartstorey.com. Please log on to my.smartstorey.com with your email and initial pasword as 123456789 <br>Please contact Bangalore@smartstorey.com for any queries.";
+
+						$from_email = "bangalore@smartstorey.com";
+						$password = "bang@1234";
+						$to_id = $v_subuser_email;
+						$message = $mailbody;
+						$subject = "Registration Successful";
+
+						$mail = new PHPMailer;
+						$mail->Host = 'smtp.zoho.com';
+						$mail->Port =465;
+						$mail->SMTPSecure = 'tls';
+						$mail->SMTPAuth = true;
+						$mail->Username = $from_email;
+						$mail->Password = $password;
+						$mail->setFrom('bangalore@smartstorey.com', 'Smartstorey LLP');
+						$mail->addReplyTo('bangalore@smartstorey.com', 'Smartstorey LLP');
+						$mail->addAddress($to_id);
+						$mail->Subject = $subject;
+						$mail->msgHTML($message);
+
+						if (!$mail->send())
+						{
+							$mail_error = "Mailer Error: " . $mail->ErrorInfo;
+							$error = 1;
+							//echo $error;
+						}
+					$subuser_last_id=mysqli_insert_id($conn);
 				}
-			$subuser_last_id=mysqli_insert_id($conn);
+
+			}
 		}
 	endif;
 

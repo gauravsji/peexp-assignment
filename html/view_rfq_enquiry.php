@@ -282,17 +282,11 @@ Date: 04/07/2017
 												<tr><td> Email:</td><td><strong>  <?php echo $enquiry_result['customer_email'] ?></strong></td></tr>
 												<tr><td> Assignee:</td><td><strong>
 												<?php
-													$sq="SELECT enquiry_assignee FROM rfq where rfq_id=". $enquiry_result['rfq_id'];
-													$resul67 = mysqli_query($conn, $sq);
-													$u_res = mysqli_fetch_array($resul67,MYSQLI_ASSOC);
-													{
-														$sqlu = "SELECT customer_name,customer_id FROM customer where customer_id = " . $enquiry_result['enquiry_assignee'];
+
+														$sqlu = "SELECT name,id FROM users where id = " . $enquiry_result['enquiry_assignee'];
 														$result5 = mysqli_query($conn, $sqlu);
 														$u_result = mysqli_fetch_array($result5,MYSQLI_ASSOC);
-														{
-															echo $u_result['customer_name'];
-														}
-													}
+														echo $u_result['name'];
 												?>
 												</strong></td></tr>
 												<tr><td>End Date: </td><td><strong>    <?php echo date("d-m-Y", strtotime($enquiry_result['end_date'])) ?></strong></td></tr>
