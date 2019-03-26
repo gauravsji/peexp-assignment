@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+	<!--Including Login Session-->
+	<?php include "../extra/session.php";
+	$global_total=0;?>
+	<!--Including Login Session-->
+	<head>
+		<!--Including Bootstrap CSS links-->
+		<?php include "../extra/header.html";?>
+		<!--Including Bootstrap CSS links-->
+	</head>
+
+	<body class="hold-transition skin-blue fixed sidebar-mini">
+		<div class="wrapper">
+
+		<!--Including Topbar-->
+		<?php include "../extra/topbar.php";?>
+		<!--Including Topbar-->
+
+		<!-- Left Side Panel Which Contains Navigation Menu -->
+		<?php include "../extra/left_nav_bar.php";?>
+		<!-- Left Side Panel Which Contains Navigation Menu -->
+
+			<!-- Content Wrapper. Contains page content -->
+			<div class="content-wrapper">
+
+			<section class="content-header">
+				<h1>All Order Report 
+					<div class="btn-toolbar pull-right">
+						<!-- <a href="../html/add_order_html.php" class="btn btn-xs btn-primary">New Order</a>	-->
+						<a href="../reports/all_order_sales_report.php" class="btn btn-xs btn-warning">All Orders</a>
+					</div>					
+				</h1>
+				
+				<div class="btn-toolbar pull-right">
+						
+						<?php 
+						if(($user_result['role']=="Admin") || ($user_result['role']=="Accounts"))
+						{
+							echo '<button class="btn btn-xs bg-olive pull-right" id="btnExport">Export</button>';
+						}
+						?>
+						</div>
+						<br>
+			</section>
+				
+				<!-- Main content -->
+				<section class="content">
+					<div class="box">
+						<div class="box-body">
+							
+							
+
+<div class="table-responsive" id="table_wrapper">
+<table id="view_order_html" class="sieve table table-bordered table-striped table-fixed table-condensed" style="border-collapse:collapse;">
+
+		<thead>
+			<!--<th><center>Products</center></th>-->
+			<th><center>Order ID</center></th>
+			<th><center>Order Date</center></th>
+			<th><center>Order About</center></th>
+			<th><center>Customer</center></th>
+			<th><center>Project</center></th>
+			<th><center>Order Status</center></th>			
+			<th><center>QB Status</center></th>
+			<th><center>View</center></th>
+		</thead>
+		<tbody>
+		<?php
+
+		if($settings_result['view_all_sales_order']!=1)
+		{
+			$sql = "SELECT * FROM ss_order o,vendor v,customer c,project p where o.vendor_id=v.vendor_id and o.customer_id=c.customer_id and o.project_id=p.project_id and o.delete_status=0 order by o.order_id desc";
+		}
+		else
+		{
+			$sql = "SELECT * FROM ss_order o,vendor v,customer c,project p where o.vendor_id=v.vendor_id and o.customer_id=c.customer_id and o.project_id=p.project_id and o.delete_status=0 order by o.order_id desc";
+		}
+			$result = mysqli_query($conn,$sql);
+			while ($row = mysqli_fetch_array($result))
+			{
+				$global_order_id=$row['order_id'];
+				$sales_assignee=null;
+				$vendor_assignee=null;
+				$transport_assignee=null;
+				
+						$sql_users = "SELECT id, name from users where authenticate<>0  order by name";
+						$query_users = mysqli_query($conn, $sql_users);
+						while($row_users = mysqli_fetch_array($query_users))
+						{
+							if ($row_users['id'] == $row['order_assignee'])
+							{
+							$sales_assignee = "S:".$row_users['name'];
+							}
+							else if ($row_users['id'] == $row['vendor_assignee'])
+							{
+								$vendor_assignee = "V:".$row_users['name'];
+							}
+							else if ($row_users['id'] == $row['operations_assignee'])
+							{
+								$transport_assignee = "O:".$row_users['name'];
+							}
+							else
+							{
+								null;
+							}
+						}
+
+					
+				
+				
+				// Print out the contents of the entry
+				echo '<tr data-toggle="collapse" class="accordion-toggle" data-target="#prod';echo $global_order_id; echo'">';
+				//echo '<td><center><button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></button></center></td>';
+				echo '<td><center>' . $row['order_id'] . '</center></td>';
+				echo '<td><center>' . $row['order_date'] . '</center></td>';
+				echo '<td><center>' . $row['order_brief_details'] . '</center></td>';
+				echo '<td><center>' . $row['customer_name'] . '</center></td>';
+				echo '<td><center>' . $row['project_name'] . '<br><strong>'.$sales_assignee.'<br>'.$vendor_assignee.'<br>'.$transport_assignee.'</strong></center></td>';
+				if( $row['order_status']=="Order Created")
+					{
+					echo '<td style="width:12%"><div class="badge bg-blue">' . $row['order_status'] . '</div></td>';
+					}
+					else if( $row['order_status']=="Order Placed")
+					{
+					echo '<td style="width:12%"><div class="badge bg-orange"><center>' . $row['order_status'] . '</div></td>';
+					}
+					else if( $row['order_status']=="Material Ready To Dispatch")
+					{
+					echo '<td style="width:12%"><div class="badge bg-olive">' . $row['order_status'] . '</div></td>';
+					}
+					else if( $row['order_status']=="Material Delivered")
+					{
+					echo '<td style="width:12%"><div class="badge bg-lime">' . $row['order_status'] . '</div></td>';
+					}
+					else if( $row['order_status']=="Order Partially Delivered")
+					{
+					echo '<td style="width:12%"><div class="badge bg-teal">' . $row['order_status'] . '</div></td>';
+					}
+					else if( $row['order_status']=="Order Fulfilled")
+					{
+					echo '<td style="width:12%"><div class="badge bg-green">' . $row['order_status'] . '</div></td>';
+					}
+					else if( $row['order_status']=="Order Cancelled")
+					{
+					echo '<td style="width:12%"><div class="badge bg-red">' . $row['order_status'] . '</div></td>';
+					}					
+					else
+					{
+					echo '<td style="width:12%"><div class="badge bg-grey">Not Set</div></td>';
+					}
+				
+					$sql2 = "SELECT * FROM order_account where  delete_status<>1 and order_id = ".$global_order_id;
+					$result2 = mysqli_query($conn, $sql2);
+					$order_account_result = mysqli_fetch_array($result2,MYSQLI_ASSOC);
+					$qb_info = '';
+					if ($order_account_result['order_ss_invoice_number'] != '' || $order_account_result['order_purchase_bill_number'] != '') {
+				$qb_info = "QB Inv: " . $order_account_result['order_ss_invoice_number'] . "<br> PB No: " . $order_account_result['order_purchase_bill_number'];
+					}
+				echo '<td><center>' . $qb_info. '</center></td>';	//7
+				
+			
+				echo  "<td><center> <a target='_blank' href='../html/view_sales_order.php?id=" . $row['order_id'] . "' class='btn btn-primary btn-xs'>View</a></center></td>";
+				echo "</tr>";
+
+		}
+		?>
+	</tbody>
+</table>
+			
+						<!-- /.box-body -->
+					</div>
+				</section>
+				<!-- /.content -->
+			</div>
+			<!-- /.content-wrapper -->
+
+			<!-- Main Footer -->
+			<footer class="main-footer">
+				<div class="pull-right hidden-xs">				
+				</div>		
+				<strong>Order Report</strong> 				
+			</footer>
+			<!-- Main Footer -->
+
+			<!--Including right slide panel-->
+			<?php include "../extra/aside.php";?>
+			<!--Including right slide panel-->
+			<!-- Add the sidebar's background. This div must be placed
+			immediately after the control sidebar -->
+			<div class="control-sidebar-bg"></div>
+		</div>
+		<!-- ./wrapper -->
+		<!--Including Bootstrap and other scripts-->
+		<?php include "../extra/footer.html";?>
+		<!--Including Bootstrap and other scripts-->	
+	</body>
+	
+	<script>
+	$(document).ready(function()
+	{
+		// Handler for .ready() called.
+		$("#li_order").addClass("active");
+		$("#li_order_report").addClass("active");
+		$('#view_order_html').DataTable({
+		"aLengthMenu": [[25, 50, 75, 100 , -1], [25, 50, 75, 100, "All"]],
+		"filter": true,
+		"order": [[ 1, "desc" ]],
+		"iDisplayLength": 25
+		});		
+		$('#view_orr_product_html').DataTable();
+		// $("table.sieve").sieve();
+		
+	});
+	
+		$("#btnExport").click(function(e) 
+	{
+    e.preventDefault();
+    //getting data from our table
+    var data_type = 'data:application/vnd.ms-excel';
+    var table_div = document.getElementById('table_wrapper');
+    var table_html = table_div.outerHTML.replace(/ /g, '%20');
+
+    var a = document.createElement('a');
+    a.href = data_type + ', ' + table_html;
+    a.download = 'all_Orders' + Math.floor((Math.random() * 9999999) + 1000000) + '.xls';
+    a.click();
+  });
+
+	</script>
+</html>

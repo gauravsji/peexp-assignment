@@ -1,0 +1,187 @@
+<!--
+Description: View task module is used to show the task information.
+Date: 04/07/2017
+-->
+<!DOCTYPE html>
+<html>
+	<!--Including Login Session-->
+	<?php include "../extra/session.php";
+		$task_id=$_GET["id"];
+		$sql = "SELECT * FROM task where task_id = " . $task_id;
+		$result = mysqli_query($conn, $sql);
+		$task_result = mysqli_fetch_array($result,MYSQLI_ASSOC);
+	?>
+	<!--Including Login Session-->
+	<head>
+		<!--Including Bootstrap CSS links-->
+		<?php include "../extra/header.html";?>
+		<!--Including Bootstrap CSS links-->
+	</head>
+
+	<body class="hold-transition skin-blue fixed sidebar-mini">
+		<div class="wrapper">
+			<!--Including Topbar-->
+			<?php include "../extra/topbar.php";?>
+			<!--Including Topbar-->
+
+			<!-- Left Side Panel Which Contains Navigation Menu -->
+			<?php include "../extra/left_nav_bar.php";?>
+			<!-- Left Side Panel Which Contains Navigation Menu -->
+
+			<!-- Content Wrapper. Contains page content -->
+			<div class="content-wrapper">
+				<!-- Content Header (Page header) -->
+				<section class="content-header">
+					<h1>
+						Task Details
+						<a href="../reports/task_report_html.php" class="btn pull-right btn-sm">
+							<button type="button" class="btn btn-primary btn-sm">
+								<i class="fa fa-arrow-left"></i> Back To Report
+							</button>
+						</a>
+					</h1>
+				</section>
+
+				<!-- Main content -->
+				<section class="content">
+						<div class="box">
+								<div class="box-body pad">
+					<div class="row">
+						<div class="col-xs-12">
+							<h2 class="page-header">
+								<i></i><center>   Task: <?php echo $task_result['task_name'] ?> </center>
+								<div class="btn-toolbar">
+									<?php echo '<a class="btn btn-primary btn-flat pull-right btn-sm" href="../html/edit_task_html.php?id='.$task_id.'"';'>'?>
+										<button type="button" class="btn btn-primary ">
+											<i class="fa fa-edit"></i> Edit
+										</button>
+									</a>
+								</div>          
+							</h2>
+						</div>
+					</div>
+					<!-- info row -->
+					<div class="row invoice-info">
+						<div class="col-sm-4 invoice-col">
+							<address>
+								<div class="table-responsive">
+									<table class="table table-condensed">
+										<tr><td width="25%"><center>TASK STATUS:</center> </td><td> <center><strong>  <?php echo $task_result['task_status'];?></strong></center></td></tr>
+										<tr><td width="25%"><center>START DATE:</center> </td><td> <center><strong>  <?php echo date("d-m-Y", strtotime($task_result['task_start_date'])) ?></strong></center></td></tr>
+										<tr><td width="25%"><center>DUE DATE:</center> </td><td> <center><strong>  <?php echo date("d-m-Y", strtotime($task_result['task_due_date']))  ?></strong></center></td></tr>
+										<tr><td width="25%"><center>PRIORITY:</center> </td><td> <center><strong>  <?php echo $task_result['task_priority'] ?></strong></center></td></tr>
+									</table>
+								</div>	
+							</address>
+						</div>
+						
+						<div class="col-sm-4 invoice-col">
+							<address>
+								<div class="table-responsive">
+									<table class="table table-condensed">
+										<center>TASK DESCRIPTION:</center>
+										<tr><td width="25%"><center><strong><?php echo $task_result['task_description'] ?></strong></center></td></tr>
+									</table>
+								</div>	
+							</address>
+						</div>
+
+						<div class="col-md-4 invoice-col">
+							<address>
+								<div class="table-responsive">
+									<table class="table table-condensed">
+										<center>REMARKS:</center>
+										<tr><td width="25%"><center><strong><?php echo $task_result['task_remarks'] ?></strong></center></td></tr>
+									</table>
+								</div>	         
+							</address>
+						</div>
+					</div>
+					
+					<div class="page-header">
+					</div>
+
+					<!-- this row will not appear when printing -->
+					<div class="row no-print">
+						<div class="col-xs-12">
+						</div>
+					</div>
+
+					<div class="page-header">
+						<center><strong>FILES</strong></center>				
+					</div>
+					<table class="table table-bordered table-condensed table-sm table-responsive" id="view_vendor_product_html"cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th><center>File</center></th>
+								<th><center>Delete</center></th>					
+							</tr>
+						</thead>
+						<tbody>
+							<?php
+								$sql = "SELECT * FROM photo p, task t where p.delete_status<>1 and p.module_name='task' and p.module_id=t.task_id and t.task_id= " . $task_id;
+								$result = mysqli_query($conn,$sql);
+								while ($row = mysqli_fetch_array($result))
+								{
+									// Print out the contents of the entry									
+									if((substr($row['photo_name'], -3))=="pdf")
+									{
+										echo '<tr><td><center><a href="../uploads/'.$row['photo_name'].'"/>Open PDF Attachment</a></td>';
+									}
+									else if((substr($row['photo_name'], -4))=="docx")
+									{
+										echo '<tr><td><center><a href="../uploads/'.$row['photo_name'].'"/>Open Word Attachment</a></td>';
+									}
+									else if((substr($row['photo_name'], -3))=="doc")
+									{
+										echo '<tr><td><center><a href="../uploads/'.$row['photo_name'].'"/>Open Word Attachment</a></td>';
+									}
+									else if((substr($row['photo_name'], -4))=="xlsx")
+									{
+										echo '<tr><td><center><a href="../uploads/'.$row['photo_name'].'"/>Open Excel Attachment</a></td>';
+									}
+									else if((substr($row['photo_name'], -3))=="xls")
+									{
+										echo '<tr><td><center><a href="../uploads/'.$row['photo_name'].'"/>Open Excel Attachment</a></td>';
+									}
+									else
+									{
+										echo '<tr><td><center><img width="35%" class="fancybox" height="35%" src="../uploads/'.$row['photo_name'].'"/></center></td>';
+									}
+									echo '<td><center><a title="Delete" onclick="return confirm(\"Delete this record?\")" class="btn btn-danger" href="../php/delete/delete_task_photo.php?id=' . $row['photo_id'] . '">Delete</a></center></td></tr>';					
+								}
+							?>
+						</tbody>
+					</table>
+					</div></div>
+				</section>
+			</div>
+
+			<!-- Main Footer -->
+			<footer class="main-footer">
+			</footer>
+			<!-- Main Footer -->
+			
+			<!--Including right slide panel-->
+			<?php include "../extra/aside.php";?>
+			<!--Including right slide panel-->
+			
+			<!-- Add the sidebar's background. This div must be placed
+			immediately after the control sidebar -->
+			<div class="control-sidebar-bg"></div>
+		</div>
+		<!-- ./wrapper -->
+		<!--Including Bootstrap and other scripts-->
+		<?php include "../extra/footer.html";?>
+		<!--Including Bootstrap and other scripts-->
+	</body>
+
+	<script>
+	$(document).ready(function()
+	{
+		// Handler for .ready() called.
+		$("#li_task").addClass("active");
+		$("#li_task_report").addClass("active");
+	});
+	</script>
+</html>
