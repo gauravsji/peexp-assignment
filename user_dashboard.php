@@ -1,6 +1,17 @@
+<?php
+if(isset($_SESSION['user_id']))
+{
+    header("Location:test/index.php"); 
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html>
     <head>
+        <!--Including Login Session-->
+    <?php include "php/session.php";?>
+    <!--Including Login Session-->
+    <?php include 'dbconnect/dbconnect.php';?>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <title>Venue - Responsive Web Template</title>
@@ -20,17 +31,20 @@
 
         <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
         <script src="https://cdn.ckeditor.com/4.15.0/standard/ckeditor.js"></script>
-<!--
+        <style type="text/css">
+            .hidden{
+                display: none;
+            }
+        </style>
+<!--    
 	Venue Template
 	http://www.templatemo.com/tm-522-venue
--->
+    --> <?php
+            $sql = "SELECT * FROM users where user_id=".$_SESSION['user_id'];
+            $result = mysqli_query($conn, $sql);
+            $user_result = mysqli_fetch_array($result,MYSQLI_ASSOC);
+        ?>
     </head>
-    <style type="text/css">
-        .hidden{
-            display: none;
-        }
-    </style>
-
 <body>
     
      <section class="banner" id="top">
@@ -135,19 +149,19 @@
                                 <label>Contact Name</label>
                             </div> 
                             <div class="form-group">
-                                <input type="text" class="form-control" name="user_contact_name" id="user_contact_name" required>
+                                <input type="text" class="form-control" name="user_contact_name" id="user_contact_name" value="<?php echo $user_result['user_name'];?>" required>
                             </div> 
                             <div class="form-group">
                                 <label>Email</label>
                             </div> 
                             <div class="form-group">
-                                <input type="Email" class="form-control" name="user_contact_email" id="user_contact_email" required>
+                                <input type="Email" class="form-control" name="user_contact_email" id="user_contact_email" value="<?php echo $user_result['user_email'];?>" required>
                             </div> 
                             <div class="form-group">
                                 <label>Phone</label>
                             </div> 
                             <div class="form-group">
-                                <input type="number" class="form-control" name="user_contact_number" id="user_contact_number" required>
+                                <input type="number" class="form-control" name="user_contact_number" id="user_contact_number" value="<?php echo $user_result['user_mobile'];?>" required>
                             </div> 
                             <div class="form-group">
                                 <h3><b>Additional Information</b></h3>

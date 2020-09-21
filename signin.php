@@ -1,3 +1,11 @@
+<?php 
+  session_start();
+  if(isset($_SESSION['user_id']))
+  {
+  header("Location:test/index.php"); 
+  exit();
+  }
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -26,7 +34,7 @@
     </head>
 
 <body>
-    
+
      <section class="banner" id="top">
         <div class="container">
             <div class="row">
@@ -40,11 +48,11 @@
                 <div class="col-md-6">
                     <ul class="dropdown menu">
                         <li class='active'><a href="#">Home</a></li>
-                        <li><a class="scrollTo" data-scrollTo="blog" href="#">My Area</a></li>
-                        <li><a class="scrollTo" data-scrollTo="services" href="#">knowledge Base</a></li>
-                        <li><a class="scrollTo" data-scrollTo="contact" href="#">Sign In</a></li>
-                        <li><a class="scrollTo" data-scrollTo="contact" href="#">Sign Up</a></li>
-                        <li><a class="scrollTo" data-scrollTo="contact" href="#">A+</a></li>
+                        <li><a href="#">My Area</a></li>
+                        <li><a href="#">knowledge Base</a></li>
+                        <li><a href="#">Sign In</a></li>
+                        <li><a href="signup.php">Sign Up</a></li>
+                        <li><a href="#">A+</a></li>
                     </ul>
                 </div>
             </div>
@@ -94,7 +102,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <img src="img/avatar.png" style="float:left;width:42px;height:42px;">
-                        <h5>New User? <a href="sign_up.php">Sign Up</a></h5>
+                        <h5>New User? <a href="signup.php">Sign Up</a></h5>
                         <span>Create an account to submit tickets, read articles and engage in our community.</span>
                     </div>  
                      <div class="form-group">

@@ -34,7 +34,7 @@
     </head>
 
 <body>
-    
+
      <section class="banner" id="top">
         <div class="container">
             <div class="row">
@@ -50,74 +50,83 @@
                         <li class='active'><a href="#">Home</a></li>
                         <li><a class="scrollTo" data-scrollTo="blog" href="#">My Area</a></li>
                         <li><a class="scrollTo" data-scrollTo="services" href="#">knowledge Base</a></li>
-                        <li><a class="scrollTo" data-scrollTo="contact" href="signin.php">Sign In</a></li>
-                        <li><a class="scrollTo" data-scrollTo="contact" href="signup.php">Sign Up</a></li>
+                        <li><a class="scrollTo" data-scrollTo="contact" href="#">Sign In</a></li>
+                        <li><a class="scrollTo" data-scrollTo="contact" href="#">Sign Up</a></li>
                         <li><a class="scrollTo" data-scrollTo="contact" href="#">A+</a></li>
                     </ul>
                 </div>
             </div>
         </div>
         <div class="container">
-            <div class="row">
-                <div class="col-md-10 col-md-offset-1">
-                    <div class="banner-caption" align="center">
-                        <h2>Welcome to PeerXP Support</h2>
-                        <span>Search our knowledge base or submit a ticket.</span>
-                        <div style="max-width: 80rem;">
-                            <input type="text" class="form-control" placeholder="Search articles">
-                        </div>
+            <div class="row banner-caption">
+                <div class="col-md-9">
+                    <input type="text" class="form-control" placeholder="Search articles">
+                </div>
+                <div class="col-md-3">
+                    <div class="blue-button">
+                        <a class="scrollTo" data-scrollTo="popular" href="#">Add Ticket</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <section class="featured-places" id="blog">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="section-heading">
-                        <div class="blue-button">
-                            <a class="scrollTo" data-scrollTo="popular" href="#">Knowledge Base</a>
+    <section id="blog" class="featured-places">
+        <div class="container" id="white_bg">
+            <div class="row" >
+                <div class="col-md-6">
+                    <form action="php/user_login.php" method="POST" accept-charset="utf-8">
+                        <div class="form-group">
+                            <label>Sign Up</label>    
                         </div>
-                    </div>
-                </div> 
-            </div> 
-            <div class="row">
-                <div class="col-md-4 col-sm-6 col-xs-12">
-                    <div class="featured-item">
-                        <div class="thumb">
-                            <img src="img/icon.jpg" alt="">
-                            <div class="overlay-content">
-                                <ul>
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-                                </ul>
-                            </div>
+                        <div class="form-group">
+                            <span>Create an account to submit tickets, read articles and engage in our community.</span> 
                         </div>
-                        <div class="down-content">
-                            <h4>PWSLab</h4>
-                            <p>PWSLab DevOps 24/7 Support always help you deliver better software faster with reliability. Add Ticket or Access KB articles.</p>
-                            <div class="row">
-                                <div class="col-md-6 first-button">
-                                    <div class="text-button">
-                                        <a href="#">23 Articles</a>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="text-button">
-                                        <a href="#">6 Sections</a>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="form-group">
+                            Name
                         </div>
-                    </div>
+                        <div class="form-group">
+                            <input class="inputBox form-control" type="text" name="signup_user_name" id="signup_user_name" placeholder="Enter Name" autofocus="">
+                        </div>
+                        <div class="form-group">
+                            Email
+                        </div>
+                        <div class="form-group">
+                            <input class="inputBox form-control" type="email" name="signup_user_email" id="signup_user_email" placeholder="Enter Email">
+                        </div>  
+                        <div class="form-group">
+                            Contact Numer
+                        </div>
+                        <div class="form-group">
+                            <input class="inputBox form-control" type="number" name="signup_user_number" id="signup_user_number" placeholder="Enter Number">
+                        </div> 
+                        <div class="form-group">
+                            Enter the text you see in the captcha image.
+                        </div>
+                        <div class="form-group">
+                            <font face="Arial" size="2">
+                                <img src="https://mipl.co.in/nb/1.gif">
+                                <img src="https://mipl.co.in/nb/7.gif">
+                                <img src="https://mipl.co.in/nb/5.gif">
+                                <img src="https://mipl.co.in/nb/0.gif">
+                                <input type="text" name="q" class="form-control">
+                            </font>
+                        </div> 
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Sign Up</button>
+                        </div>  
+                    </form>
                 </div>
-                <div class="col-md-4 col-sm-6 col-xs-12">
-                </div>
-                <div class="col-md-4 col-sm-6 col-xs-12">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <img src="img/avatar.png" style="float:left;width:42px;height:42px;">
+                        <h5>Already a member? <a href="sign_up.php">Sign In</a></h5>
+                        <span>Sign in to submit tickets, browse articles and engage in our community.</span>
+                    </div>  
+                     <div class="form-group">
+                         <img src="img/agent.png" style="float:left;width:42px;height:42px;">
+                         <h5>Are you an Agent? <a href="https://support.peerxp.com/support/peerxp/ShowHomePage.do">Log in here</a></h5>
+                        <span>You will be taken to the agent interface.</span>
+                    </div>  
                 </div>
             </div>
         </div>
